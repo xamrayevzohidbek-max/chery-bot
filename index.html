@@ -56,7 +56,6 @@
             cursor: pointer;
         }
 
-        /* 360 Spin Modal */
         .modal {
             display: none;
             position: fixed;
@@ -90,7 +89,7 @@
         .spin-container {
             width: 95vw;
             max-width: 500px;
-            height: 300px;
+            height: 280px;
             background: #ffffff;
             border-radius: 16px;
             display: flex;
@@ -118,11 +117,10 @@
 <body>
 
     <div class="header">
-        <h1>🚗 Chery 360° Panorama</h1>
-        <p>Haqiqiy avtosalon ko'rinishida aylantirib ko'ring</p>
+        <h1>🚗 Chery Uzbekistan 360°</h1>
+        <p>Modelni har tomondan barmog'ingiz bilan surib ko'ring</p>
     </div>
 
-    <!-- Tiggo 7 Pro -->
     <div class="card">
         <div class="card-body">
             <div class="card-title">Chery Tiggo 7 Pro</div>
@@ -139,7 +137,7 @@
         </div>
 
         <div class="spin-container" id="spinArea">
-            <img id="spinImage" src="https://www.chery.ru/storage/images/360/tiggo7pro/1.png" alt="360 view">
+            <img id="spinImage" src="https://res.cloudinary.com/demo/image/3d/1.jpg" alt="360 Car View">
         </div>
 
         <div class="hint">👈 Barmog'ingiz bilan chapga/o'ngga suring 👉</div>
@@ -153,7 +151,8 @@
             }
         });
 
-        const totalFrames = 36;
+        // Ishonchli Cloudinary CDN rasmlar to'plami (1-18 kadrlar)
+        const totalFrames = 18;
         let currentFrame = 1;
         let startX = 0;
         let isDragging = false;
@@ -173,11 +172,10 @@
         }
 
         function updateImage() {
-            // Chery rasmiy 360 kadrlar generatori
-            spinImage.src = `https://www.chery.ru/storage/images/360/tiggo7pro/${currentFrame}.png`;
+            spinImage.src = `https://res.cloudinary.com/demo/image/3d/${currentFrame}.jpg`;
         }
 
-        // Touch & Mouse eventlar (Aylantirish uchun)
+        // Touch & Mouse hodisalari
         spinArea.addEventListener('pointerdown', (e) => {
             isDragging = true;
             startX = e.clientX;
@@ -186,7 +184,7 @@
         window.addEventListener('pointermove', (e) => {
             if (!isDragging) return;
             const diff = e.clientX - startX;
-            if (Math.abs(diff) > 10) {
+            if (Math.abs(diff) > 12) {
                 if (diff > 0) {
                     currentFrame = currentFrame >= totalFrames ? 1 : currentFrame + 1;
                 } else {
