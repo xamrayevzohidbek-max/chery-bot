@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chery 360 Interactive</title>
+    <title>Chery Interactive Showcase</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
@@ -32,19 +32,31 @@
         .header h1 { font-size: 22px; margin: 0; }
         .header p { font-size: 13px; color: var(--sub-text); margin-top: 5px; }
 
+        .grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
         .card {
             background: var(--card-bg);
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-            margin-bottom: 15px;
+        }
+
+        .card img {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            display: block;
         }
 
         .card-body { padding: 15px; }
         .card-title { font-size: 19px; font-weight: 700; margin: 0 0 6px 0; }
         .price { font-size: 16px; color: var(--accent-color); font-weight: bold; margin-bottom: 12px; }
 
-        .btn-360 {
+        .btn-view {
             width: 100%;
             background-color: #111111;
             color: #ffffff;
@@ -56,6 +68,7 @@
             cursor: pointer;
         }
 
+        /* Modal Gallery */
         .modal {
             display: none;
             position: fixed;
@@ -86,61 +99,94 @@
             cursor: pointer;
         }
 
-        .spin-container {
-            width: 95vw;
-            max-width: 500px;
-            height: 280px;
-            background: #ffffff;
+        .image-container {
+            width: 92vw;
+            max-width: 480px;
+            height: 250px;
+            background: #000;
             border-radius: 16px;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            touch-action: none;
-            cursor: grab;
-            overflow: hidden;
         }
 
-        .spin-container img {
+        .image-container img {
             width: 100%;
-            height: auto;
-            pointer-events: none;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .hint {
-            color: #aaa;
-            font-size: 13px;
+        .angle-buttons {
+            display: flex;
+            gap: 8px;
             margin-top: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .angle-btn {
+            background: #333;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .angle-btn.active {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>🚗 Chery Uzbekistan 360°</h1>
-        <p>Modelni har tomondan barmog'ingiz bilan surib ko'ring</p>
+        <h1>🚗 Chery Uzbekistan</h1>
+        <p>Modelni har tomondan tomosha qiling</p>
     </div>
 
-    <div class="card">
-        <div class="card-body">
-            <div class="card-title">Chery Tiggo 7 Pro</div>
-            <div class="price">299,900,000 UZS dan</div>
-            <button class="btn-360" onclick="open360('Chery Tiggo 7 Pro')">🔄 360° Aylantirib ko'rish</button>
+    <div class="grid">
+        <!-- Tiggo 7 Pro -->
+        <div class="card">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Chery_Tiggo_7_Pro_001.jpg/800px-Chery_Tiggo_7_Pro_001.jpg" alt="Chery Tiggo 7 Pro">
+            <div class="card-body">
+                <div class="card-title">Chery Tiggo 7 Pro</div>
+                <div class="price">299,900,000 UZS dan</div>
+                <button class="btn-view" onclick="openGallery('Tiggo 7 Pro', tiggo7Images)">🔄 Barcha burchaklardan ko'rish</button>
+            </div>
+        </div>
+
+        <!-- Tiggo 8 Pro Max -->
+        <div class="card">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Chery_Tiggo_8_Pro_01.jpg/800px-Chery_Tiggo_8_Pro_01.jpg" alt="Chery Tiggo 8 Pro Max">
+            <div class="card-body">
+                <div class="card-title">Chery Tiggo 8 Pro Max</div>
+                <div class="price">415,000,000 UZS dan</div>
+                <button class="btn-view" onclick="openGallery('Tiggo 8 Pro Max', tiggo8Images)">🔄 Barcha burchaklardan ko'rish</button>
+            </div>
         </div>
     </div>
 
-    <!-- 360 Modal Viewer -->
-    <div id="spinModal" class="modal">
+    <!-- Modal Multi-Angle Gallery -->
+    <div id="galleryModal" class="modal">
         <div class="modal-header">
             <h3 id="mTitle" style="margin:0;"></h3>
-            <button class="close-btn" onclick="close360()">✕ Yopish</button>
+            <button class="close-btn" onclick="closeGallery()">✕ Yopish</button>
         </div>
 
-        <div class="spin-container" id="spinArea">
-            <img id="spinImage" src="https://res.cloudinary.com/demo/image/3d/1.jpg" alt="360 Car View">
+        <div class="image-container">
+            <img id="galleryImg" src="" alt="Chery View">
         </div>
 
-        <div class="hint">👈 Barmog'ingiz bilan chapga/o'ngga suring 👉</div>
+        <div class="angle-buttons">
+            <button class="angle-btn active" onclick="setAngle(0, this)">🚘 Oldi</button>
+            <button class="angle-btn" onclick="setAngle(1, this)">🏎 Yon</button>
+            <button class="angle-btn" onclick="setAngle(2, this)">🚘 Orqa</button>
+            <button class="angle-btn" onclick="setAngle(3, this)">💺 Salon</button>
+        </div>
     </div>
 
     <script>
@@ -151,51 +197,48 @@
             }
         });
 
-        // Ishonchli Cloudinary CDN rasmlar to'plami (1-18 kadrlar)
-        const totalFrames = 18;
-        let currentFrame = 1;
-        let startX = 0;
-        let isDragging = false;
+        // Chery Tiggo 7 Pro haqiqiy rasmlari
+        const tiggo7Images = [
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Chery_Tiggo_7_Pro_001.jpg/800px-Chery_Tiggo_7_Pro_001.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Chery_Tiggo_7_Pro_002.jpg/800px-Chery_Tiggo_7_Pro_002.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Chery_Tiggo_7_Pro_rear.jpg/800px-Chery_Tiggo_7_Pro_rear.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Chery_Tiggo_7_Pro_Interior.jpg/800px-Chery_Tiggo_7_Pro_Interior.jpg"
+        ];
 
-        const spinImage = document.getElementById('spinImage');
-        const spinArea = document.getElementById('spinArea');
+        // Chery Tiggo 8 Pro haqiqiy rasmlari
+        const tiggo8Images = [
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Chery_Tiggo_8_Pro_01.jpg/800px-Chery_Tiggo_8_Pro_01.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Chery_Tiggo_8_Pro_02.jpg/800px-Chery_Tiggo_8_Pro_02.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Chery_Tiggo_8_Pro_rear.jpg/800px-Chery_Tiggo_8_Pro_rear.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Chery_Tiggo_8_Pro_interior.jpg/800px-Chery_Tiggo_8_Pro_interior.jpg"
+        ];
 
-        function open360(title) {
+        let currentActiveSet = [];
+
+        function openGallery(title, imageArray) {
             document.getElementById('mTitle').innerText = title;
-            currentFrame = 1;
-            updateImage();
-            document.getElementById('spinModal').style.display = 'flex';
+            currentActiveSet = imageArray;
+            document.getElementById('galleryImg').src = imageArray[0];
+            
+            // Active knopkani birinchisiga qaytarish
+            const buttons = document.querySelectorAll('.angle-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            buttons[0].classList.add('active');
+
+            document.getElementById('galleryModal').style.display = 'flex';
         }
 
-        function close360() {
-            document.getElementById('spinModal').style.display = 'none';
-        }
-
-        function updateImage() {
-            spinImage.src = `https://res.cloudinary.com/demo/image/3d/${currentFrame}.jpg`;
-        }
-
-        // Touch & Mouse hodisalari
-        spinArea.addEventListener('pointerdown', (e) => {
-            isDragging = true;
-            startX = e.clientX;
-        });
-
-        window.addEventListener('pointermove', (e) => {
-            if (!isDragging) return;
-            const diff = e.clientX - startX;
-            if (Math.abs(diff) > 12) {
-                if (diff > 0) {
-                    currentFrame = currentFrame >= totalFrames ? 1 : currentFrame + 1;
-                } else {
-                    currentFrame = currentFrame <= 1 ? totalFrames : currentFrame - 1;
-                }
-                updateImage();
-                startX = e.clientX;
+        function setAngle(index, element) {
+            if (currentActiveSet[index]) {
+                document.getElementById('galleryImg').src = currentActiveSet[index];
+                document.querySelectorAll('.angle-btn').forEach(btn => btn.classList.remove('active'));
+                element.classList.add('active');
             }
-        });
+        }
 
-        window.addEventListener('pointerup', () => { isDragging = false; });
+        function closeGallery() {
+            document.getElementById('galleryModal').style.display = 'none';
+        }
     </script>
 </body>
 </html>
