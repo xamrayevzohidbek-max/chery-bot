@@ -10,7 +10,7 @@
             --bg-color: #f4f5f7;
             --card-bg: #ffffff;
             --text-color: #111111;
-            --accent-color: #d32f2f;
+            --accent-color: #d32f2f; /* Chery's red tone */
             --sub-text: #666666;
         }
 
@@ -21,68 +21,90 @@
             margin: 0;
             padding: 15px;
             box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            padding-top: 10px;
         }
 
         .header h1 {
-            font-size: 22px;
+            font-size: 24px;
             margin: 0;
+            font-weight: 800;
             color: #000;
         }
 
         .header p {
-            font-size: 14px;
+            font-size: 15px;
             color: var(--sub-text);
-            margin-top: 5px;
+            margin-top: 8px;
+            margin-bottom: 0;
         }
 
         .grid {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
 
         .card {
             background: var(--card-bg);
-            border-radius: 16px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s ease;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
 
         .card img {
             width: 100%;
-            height: 180px;
-            object-fit: cover;
+            height: 200px;
+            object-fit: cover; /* Mashina rasmini chiroyli joylashtirish uchun */
             display: block;
+            border-bottom: 1px solid #eee;
         }
 
         .card-body {
-            padding: 15px;
+            padding: 18px;
         }
 
         .card-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
-            margin: 0 0 8px 0;
+            margin: 0 0 10px 0;
+            color: #000;
         }
 
         .price {
-            font-size: 16px;
+            font-size: 17px;
             color: var(--accent-color);
-            font-weight: bold;
-            margin-bottom: 12px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background-color: rgba(211, 47, 47, 0.05);
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 6px;
         }
 
         .specs {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--sub-text);
-            line-height: 1.5;
-            margin-bottom: 15px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            background-color: #fafafa;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .specs b {
+            color: #333;
         }
 
         .btn-order {
@@ -90,86 +112,100 @@
             background-color: var(--accent-color);
             color: #ffffff;
             border: none;
-            padding: 10px;
-            border-radius: 10px;
+            padding: 14px;
+            border-radius: 12px;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 16px;
             cursor: pointer;
+            transition: background-color 0.2s;
         }
 
         .btn-order:active {
-            opacity: 0.8;
+            background-color: #b71c1c;
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>🚗 Chery Uzbekistan Catalog</h1>
-        <p>Oʻzingizga mos modelni tanlang</p>
+        <h1>🚗 Chery Uzbekistan</h1>
+        <p>Rasmiy Mini App Katalogi</p>
     </div>
 
     <div class="grid">
         <!-- Tiggo 7 Pro -->
         <div class="card">
-            <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80" alt="Chery Tiggo 7 Pro">
+            <!-- HAQIQIY CHERY TIGGO 7 PRO RASMI -->
+            <img src="https://www.chery.my/wp-content/uploads/2023/05/T7P-Homepage-Car-Mobile.webp" alt="Chery Tiggo 7 Pro">
             <div class="card-body">
-                <div class="card-title">Chery Tiggo 7 Pro</div>
+                <div class="card-title">Tiggo 7 Pro</div>
                 <div class="price">299,900,000 UZS dan</div>
                 <div class="specs">
-                    ⚙️ Motor: 1.5L Turbo (147 h.p.)<br>
-                    ⛽ Sarf: 7.4L / 100 km<br>
-                    🕹 Uzatish qutisi: CVT
+                    ⚙️ <b>Motor:</b> 1.5L Turbo (147 o.k.)<br>
+                    ⛽ <b>Sarf:</b> 7.4L / 100 km<br>
+                    🕹 <b>Uzatish qutisi:</b> CVT9
                 </div>
-                <button class="btn-order" onclick="selectCar('Chery Tiggo 7 Pro')">Batafsil ko'rish</button>
+                <button class="btn-order" onclick="selectCar('Chery Tiggo 7 Pro')">Batafsil ma'lumot</button>
             </div>
         </div>
 
         <!-- Tiggo 8 Pro Max -->
         <div class="card">
-            <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80" alt="Chery Tiggo 8 Pro Max">
+            <!-- HAQIQIY CHERY TIGGO 8 PRO MAX RASMI -->
+            <img src="https://www.oto.com/en/mobil-baru/chery/tiggo-8-pro-max/gambar" alt="Chery Tiggo 8 Pro Max">
             <div class="card-body">
-                <div class="card-title">Chery Tiggo 8 Pro Max</div>
+                <div class="card-title">Tiggo 8 Pro Max</div>
                 <div class="price">415,000,000 UZS dan</div>
                 <div class="specs">
-                    ⚙️ Motor: 2.0L Turbo AWD (197 h.p.)<br>
-                    ⛽ Sarf: 8.1L / 100 km<br>
-                    🕹 Uzatish qutisi: 7DCT (AWD)
+                    ⚙️ <b>Motor:</b> 2.0L Turbo AWD (197 o.k.)<br>
+                    ⛽ <b>Sarf:</b> 8.1L / 100 km<br>
+                    🕹 <b>Uzatish qutisi:</b> 7DCT (AWD)
                 </div>
-                <button class="btn-order" onclick="selectCar('Chery Tiggo 8 Pro Max')">Batafsil ko'rish</button>
+                <button class="btn-order" onclick="selectCar('Chery Tiggo 8 Pro Max')">Batafsil ma'lumot</button>
             </div>
         </div>
 
         <!-- Arrizo 6 Pro -->
         <div class="card">
-            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80" alt="Chery Arrizo 6 Pro">
+            <!-- HAQIQIY CHERY ARRIZO 6 PRO RASMI -->
+            <img src="https://ksa.cheryinternational.com/pc/models/arrizo/arrizo6/images/index_main_pic.png" alt="Chery Arrizo 6 Pro">
             <div class="card-body">
-                <div class="card-title">Chery Arrizo 6 Pro</div>
+                <div class="card-title">Arrizo 6 Pro</div>
                 <div class="price">255,000,000 UZS dan</div>
                 <div class="specs">
-                    ⚙️ Motor: 1.5L Turbo (147 h.p.)<br>
-                    ⛽ Sarf: 6.9L / 100 km<br>
-                    🕹 Uzatish qutisi: CVT9
+                    ⚙️ <b>Motor:</b> 1.5L Turbo (147 o.k.)<br>
+                    ⛽ <b>Sarf:</b> 6.9L / 100 km<br>
+                    🕹 <b>Uzatish qutisi:</b> CVT9
                 </div>
-                <button class="btn-order" onclick="selectCar('Chery Arrizo 6 Pro')">Batafsil ko'rish</button>
+                <button class="btn-order" onclick="selectCar('Chery Arrizo 6 Pro')">Batafsil ma'lumot</button>
             </div>
         </div>
     </div>
 
     <script>
+        // Telegram tayyor bo'lishini kutamiz
         window.addEventListener('load', function() {
             if (window.Telegram && window.Telegram.WebApp) {
                 Telegram.WebApp.ready();
-                Telegram.WebApp.expand();
+                Telegram.WebApp.expand(); // Ilovani to'liq ekranga yoyish
+                
+                // Ilova ranglarini Telegram mavzusiga moslash (ixtiyoriy)
+                document.documentElement.style.setProperty('--bg-color', Telegram.WebApp.themeParams.bg_color || '#f4f5f7');
+                document.documentElement.style.setProperty('--text-color', Telegram.WebApp.themeParams.text_color || '#111111');
             }
         });
 
         function selectCar(carName) {
             if (window.Telegram && window.Telegram.WebApp) {
                 // Tanlangan mashina haqida botga ma'lumot yuborish
-                Telegram.WebApp.sendData(JSON.stringify({ car: carName }));
+                Telegram.WebApp.sendData(JSON.stringify({ 
+                    action: 'car_view',
+                    car_name: carName 
+                }));
+                // Ma'lumot yuborilgach, Mini App yopiladi
             } else {
-                alert("Tanlandi: " + carName);
+                // Brauzerda test qilayotganda
+                alert("Siz tanladingiz: " + carName + ". (Bu funksiya faqat Telegram ichida ishlaydi)");
             }
         }
     </script>
