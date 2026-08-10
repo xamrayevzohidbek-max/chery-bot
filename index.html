@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
     <title>Chery Interactive Showcase</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
@@ -103,7 +104,7 @@
             width: 92vw;
             max-width: 480px;
             height: 250px;
-            background: #000;
+            background: #111;
             border-radius: 16px;
             overflow: hidden;
             display: flex;
@@ -151,7 +152,7 @@
     <div class="grid">
         <!-- Tiggo 7 Pro -->
         <div class="card">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Chery_Tiggo_7_Pro_001.jpg/800px-Chery_Tiggo_7_Pro_001.jpg" alt="Chery Tiggo 7 Pro">
+            <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80" alt="Chery Tiggo 7 Pro" referrerpolicy="no-referrer">
             <div class="card-body">
                 <div class="card-title">Chery Tiggo 7 Pro</div>
                 <div class="price">299,900,000 UZS dan</div>
@@ -161,7 +162,7 @@
 
         <!-- Tiggo 8 Pro Max -->
         <div class="card">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Chery_Tiggo_8_Pro_01.jpg/800px-Chery_Tiggo_8_Pro_01.jpg" alt="Chery Tiggo 8 Pro Max">
+            <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80" alt="Chery Tiggo 8 Pro Max" referrerpolicy="no-referrer">
             <div class="card-body">
                 <div class="card-title">Chery Tiggo 8 Pro Max</div>
                 <div class="price">415,000,000 UZS dan</div>
@@ -178,7 +179,7 @@
         </div>
 
         <div class="image-container">
-            <img id="galleryImg" src="" alt="Chery View">
+            <img id="galleryImg" src="" alt="Chery View" referrerpolicy="no-referrer">
         </div>
 
         <div class="angle-buttons">
@@ -197,20 +198,19 @@
             }
         });
 
-        // Chery Tiggo 7 Pro haqiqiy rasmlari
+        // Kafolatlangan yuklanuvchi rasmlar (Oldi, Yon, Orqa, Salon)
         const tiggo7Images = [
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Chery_Tiggo_7_Pro_001.jpg/800px-Chery_Tiggo_7_Pro_001.jpg",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Chery_Tiggo_7_Pro_002.jpg/800px-Chery_Tiggo_7_Pro_002.jpg",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Chery_Tiggo_7_Pro_rear.jpg/800px-Chery_Tiggo_7_Pro_rear.jpg",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Chery_Tiggo_7_Pro_Interior.jpg/800px-Chery_Tiggo_7_Pro_Interior.jpg"
+            "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80"
         ];
 
-        // Chery Tiggo 8 Pro haqiqiy rasmlari
         const tiggo8Images = [
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Chery_Tiggo_8_Pro_01.jpg/800px-Chery_Tiggo_8_Pro_01.jpg",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Chery_Tiggo_8_Pro_02.jpg/800px-Chery_Tiggo_8_Pro_02.jpg",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Chery_Tiggo_8_Pro_rear.jpg/800px-Chery_Tiggo_8_Pro_rear.jpg",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Chery_Tiggo_8_Pro_interior.jpg/800px-Chery_Tiggo_8_Pro_interior.jpg"
+            "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80"
         ];
 
         let currentActiveSet = [];
@@ -220,7 +220,6 @@
             currentActiveSet = imageArray;
             document.getElementById('galleryImg').src = imageArray[0];
             
-            // Active knopkani birinchisiga qaytarish
             const buttons = document.querySelectorAll('.angle-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             buttons[0].classList.add('active');
