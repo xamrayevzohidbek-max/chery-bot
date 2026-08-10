@@ -1,92 +1,105 @@
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="referrer" content="no-referrer">
-    <title>Chery Uzbekistan</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        :root {
-            --bg-color: #0f1115;
-            --card-bg: #1a1d24;
-            --accent-color: #d32f2f;
-            --text-color: #ffffff;
-        }
+import logging
+from telegram import Update, ReplyKeyboardMarkup, KeyboardButton
+from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 15px;
-            box-sizing: border-box;
-        }
+# Logging sozlamasi
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
 
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+BOT_TOKEN = "YOUR_TELEGRAM_BOT_TOKEN"  # Bu yerga BotFather bergan tokenni qo'ying
 
-        .header h1 { font-size: 22px; margin: 0; }
-        .header p { font-size: 13px; color: #888; margin-top: 5px; }
+# Asosiy Menyu Tugmalari
+def main_keyboard():
+    keyboard = [
+        [KeyboardButton("🚘 Mashina modellari")],
+        [KeyboardButton("📍 Lokatsiya")]
+    ]
+    return ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 
-        .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-        }
+# Modellarni Tanlash Tugmalari
+def models_keyboard():
+    keyboard = [
+        [KeyboardButton("🚘 Chery Tiggo 7 Pro")],
+        [KeyboardButton("🚘 Chery Tiggo 8 Pro Max")],
+        [KeyboardButton("⬅️ Bosh menyuga qaytish")]
+    ]
+    return ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 
-        .main-img {
-            width: 100%;
-            height: 230px;
-            object-fit: cover;
-            display: block;
-        }
+# /start buyrug'i
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_first_name = update.effective_user.first_name
+    text = (
+        f"Assalomu alaykum, {user_first_name}!\n\n"
+        "<b>Chery Uzbekistan</b> rasmiy botiga xush kelibsiz.\n"
+        "Kerakli bo'limni tanlang:"
+    )
+    await update.message.reply_text(text, parse_mode="HTML", reply_markup=main_keyboard())
 
-        .card-body { padding: 18px; }
-        .card-title { font-size: 20px; font-weight: 700; margin: 0 0 6px 0; }
-        .price { font-size: 16px; color: var(--accent-color); font-weight: bold; margin-bottom: 15px; }
+# Xabarlarni qayta ishlash
+async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    text = update.message.text
 
-        .btn-buy {
-            width: 100%;
-            background-color: var(--accent-color);
-            color: #ffffff;
-            border: none;
-            padding: 13px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
+    # Asosiy menyu bo'limlari
+    if text == "🚘 Mashina modellari":
+        await update.message.reply_text(
+            "Qaysi model haqida ma'lumot olmoqchisiz?",
+            reply_markup=models_keyboard()
+        )
 
-    <div class="header">
-        <h1>🚗 Chery Uzbekistan</h1>
-        <p>Rasmiy avtosalon modeli</p>
-    </div>
+    elif text == "📍 Lokatsiya":
+        location_info = (
+            "<b>🏢 Chery Uzbekistan Rasmiy Avtosaloni</b>\n\n"
+            "📍 <b>Manzil:</b> Toshkent shahri, Sergeli tumani, TKAAD ko'chasi, 28-uy\n"
+            "📞 <b>Aloqa:</b> +998 71 276 55 55\n"
+            "⏰ <b>Ish vaqti:</b> Har kuni 09:00 dan 19:00 gacha"
+        )
+        await update.message.reply_text(location_info, parse_mode="HTML")
+        # Avtosalon xaritadagi koordinatasini yuborish (Toshkent, Sergeli)
+        await update.message.reply_location(latitude=41.2345, longitude=69.2123)
 
-    <div class="card">
-        <!-- Tayyor rasmiy internet havolasidagi rasm -->
-        <img class="main-img" src="https://images.hdqwalls.com/wallpapers/chery-tiggo-7-pro-2020-4k-zs.jpg" alt="Chery Tiggo 7 Pro">
-        
-        <div class="card-body">
-            <div class="card-title">Chery Tiggo 7 Pro</div>
-            <div class="price">299,900,000 UZS dan</div>
-            <button class="btn-buy" onclick="Telegram.WebApp.close()">Shartnoma olish</button>
-        </div>
-    </div>
+    # Mashina modellari haqida ma'lumot
+    elif text == "🚘 Chery Tiggo 7 Pro":
+        info = (
+            "🚘 <b>Chery Tiggo 7 Pro</b>\n\n"
+            "💰 <b>Boshlang'ich narxi:</b> 299,900,000 UZS\n\n"
+            "📋 <b>Asosiy xususiyatlari:</b>\n"
+            "• <b>Dvigatel:</b> 1.5 Turbo (147 ot kuchi)\n"
+            "• <b>Uzatmalar qutisi:</b> CVT (9 pog'onali simulyatsiya)\n"
+            "• <b>Yonilg'i sarfi:</b> 8.2 L / 100 km\n"
+            "• <b>Haydash rejimari:</b> Eco / Sport\n\n"
+            "✨ <b>Qulayliklari:</b> 10.25-dyuymli multimedia displey, panoramali tom, 360° kamera, simsiz quvvatlash paneli, charm salon va iqlim nazorati."
+        )
+        await update.message.reply_text(info, parse_mode="HTML")
 
-    <script>
-        window.addEventListener('load', () => {
-            if (window.Telegram && window.Telegram.WebApp) {
-                Telegram.WebApp.ready();
-                Telegram.WebApp.expand();
-            }
-        });
-    </script>
-</body>
-</html>
+    elif text == "🚘 Chery Tiggo 8 Pro Max":
+        info = (
+            "🚘 <b>Chery Tiggo 8 Pro Max</b>\n\n"
+            "💰 <b>Boshlang'ich narxi:</b> 415,000,000 UZS\n\n"
+            "📋 <b>Asosiy xususiyatlari:</b>\n"
+            "• <b>Dvigatel:</b> 2.0 Turbo (197 ot kuchi)\n"
+            "• <b>Uzatmalar qutisi:</b> 7DCT (Robotlashtirilgan)\n"
+            "• <b>Yurish tizimi:</b> AWD (To'liq tortish 4x4)\n"
+            "• <b>O'rinlar soni:</b> 7 kishilik keng salon\n\n"
+            "✨ <b>Qulayliklari:</b> Qo'shaloq 12.3-dyuymli raqamli ekran, Premium Sony audio tizimi, moslashuvchan kruiz-kontrol va adaptiv podveska."
+        )
+        await update.message.reply_text(info, parse_mode="HTML")
+
+    elif text == "⬅️ Bosh menyuga qaytish":
+        await update.message.reply_text(
+            "Bosh menyu:",
+            reply_markup=main_keyboard()
+        )
+
+def main():
+    app = ApplicationBuilder().token(BOT_TOKEN).build()
+
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+
+    print("Bot muvaffaqiyatli ishga tushdi...")
+    app.run_polling()
+
+if __name__ == "__main__":
+    main()
