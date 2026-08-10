@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chery Uzbekistan Showcase</title>
+    <title>Chery 360 Showcase</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Google 3D Model Viewer kutubxonasi -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <style>
         :root {
             --bg-color: #f4f5f7;
@@ -34,7 +36,7 @@
         }
 
         .header p {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--sub-text);
             margin-top: 5px;
         }
@@ -76,53 +78,73 @@
             margin-bottom: 12px;
         }
 
-        .btn-order {
+        .btn-3d {
             width: 100%;
-            background-color: var(--accent-color);
+            background-color: #111111;
             color: #ffffff;
             border: none;
             padding: 12px;
             border-radius: 10px;
             font-weight: 600;
-            font-size: 15px;
+            font-size: 14px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        /* Modal (Batafsil ma'lumot oynasi) */
+        /* 3D Modal Oynasi */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0, 0, 0, 0.85);
             justify-content: center;
             align-items: center;
             z-index: 100;
+            flex-direction: column;
         }
 
-        .modal-content {
-            background: white;
-            padding: 20px;
+        .modal-header {
+            width: 90%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        model-viewer {
+            width: 90vw;
+            height: 60vh;
+            background-color: #1a1a1a;
             border-radius: 16px;
-            width: 85%;
-            max-width: 400px;
+            --poster-color: transparent;
         }
 
         .close-btn {
-            background: #333;
+            background: var(--accent-color);
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 8px 16px;
             border-radius: 8px;
-            float: right;
+            font-weight: bold;
             cursor: pointer;
+        }
+
+        .hint {
+            color: #ccc;
+            font-size: 12px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>🚗 Chery Uzbekistan</h1>
-        <p>Rasmiy Mini App Katalogi</p>
+        <h1>🚗 Chery Uzbekistan 3D</h1>
+        <p>Modelni 360° ko'rish uchun tugmani bosing</p>
     </div>
 
     <div class="grid">
@@ -132,7 +154,9 @@
             <div class="card-body">
                 <div class="card-title">Chery Tiggo 7 Pro</div>
                 <div class="price">299,900,000 UZS dan</div>
-                <button class="btn-order" onclick="openModal('Chery Tiggo 7 Pro', '299,900,000 UZS', '1.5L Turbo (147 o.k.)', '7.4L / 100 km', 'CVT9', 'Panoramali tom, 360° kamera, Charm salon, Simsiz quvvatlagich.')">Batafsil ma'lumot</button>
+                <button class="btn-3d" onclick="open3D('Chery Tiggo 7 Pro', 'https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/ToyCar/glTF-Binary/ToyCar.glb')">
+                    🔄 360° Ko'rinishda ko'rish
+                </button>
             </div>
         </div>
 
@@ -142,32 +166,24 @@
             <div class="card-body">
                 <div class="card-title">Chery Tiggo 8 Pro Max</div>
                 <div class="price">415,000,000 UZS dan</div>
-                <button class="btn-order" onclick="openModal('Chery Tiggo 8 Pro Max', '415,000,000 UZS', '2.0L Turbo AWD (197 o.k.)', '8.1L / 100 km', '7DCT (AWD)', '7 o‘rinli, To‘liq uzatma (AWD), Adaptiv kruiz-kontrol, Sony audio tizimi.')">Batafsil ma'lumot</button>
-            </div>
-        </div>
-
-        <!-- Arrizo 6 Pro -->
-        <div class="card">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Chery_Arrizo_6_Pro_001.jpg/800px-Chery_Arrizo_6_Pro_001.jpg" alt="Chery Arrizo 6 Pro">
-            <div class="card-body">
-                <div class="card-title">Chery Arrizo 6 Pro</div>
-                <div class="price">255,000,000 UZS dan</div>
-                <button class="btn-order" onclick="openModal('Chery Arrizo 6 Pro', '255,000,000 UZS', '1.5L Turbo (147 o.k.)', '6.9L / 100 km', 'CVT9', 'Luks sedan, Raqamli pribor paneli, LED chiroqlar, Isitiladigan o‘rindiqlar.')">Batafsil ma'lumot</button>
+                <button class="btn-3d" onclick="open3D('Chery Tiggo 8 Pro Max', 'https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/ToyCar/glTF-Binary/ToyCar.glb')">
+                    🔄 360° Ko'rinishda ko'rish
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Modal Oyna (Ochilganda chiqadi) -->
-    <div id="infoModal" class="modal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeModal()">✕</button>
-            <h2 id="mTitle" style="margin-top:0;"></h2>
-            <p><b>Narxi:</b> <span id="mPrice" style="color:#d32f2f;"></span></p>
-            <p>⚙️ <b>Motor:</b> <span id="mMotor"></span></p>
-            <p>⛽ <b>Sarf:</b> <span id="mFuel"></span></p>
-            <p>🕹 <b>Uzatish qutisi:</b> <span id="mGear"></span></p>
-            <p>🌟 <b>Qulayliklar:</b> <span id="mDesc"></span></p>
+    <!-- 3D Oyna -->
+    <div id="viewerModal" class="modal">
+        <div class="modal-header">
+            <h3 id="mTitle" style="margin: 0;"></h3>
+            <button class="close-btn" onclick="close3D()">✕ Yopish</button>
         </div>
+        
+        <!-- Google 3D Player -->
+        <model-viewer id="carViewer" src="" camera-controls auto-rotate shadow-intensity="1" ar></model-viewer>
+        
+        <div class="hint">👆 Barmog'ingiz bilan mashinani har tomonga burib ko'ring</div>
     </div>
 
     <script>
@@ -178,18 +194,16 @@
             }
         });
 
-        function openModal(title, price, motor, fuel, gear, desc) {
+        function open3D(title, modelUrl) {
             document.getElementById('mTitle').innerText = title;
-            document.getElementById('mPrice').innerText = price;
-            document.getElementById('mMotor').innerText = motor;
-            document.getElementById('mFuel').innerText = fuel;
-            document.getElementById('mGear').innerText = gear;
-            document.getElementById('mDesc').innerText = desc;
-            document.getElementById('infoModal').style.display = 'flex';
+            const viewer = document.getElementById('carViewer');
+            viewer.src = modelUrl;
+            document.getElementById('viewerModal').style.display = 'flex';
         }
 
-        function closeModal() {
-            document.getElementById('infoModal').style.display = 'none';
+        function close3D() {
+            document.getElementById('viewerModal').style.display = 'none';
+            document.getElementById('carViewer').src = "";
         }
     </script>
 </body>
