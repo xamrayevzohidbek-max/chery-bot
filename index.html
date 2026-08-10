@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chery 360 Showcase</title>
+    <title>Chery 360 Interactive</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- Google 3D Model Viewer kutubxonasi -->
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <style>
         :root {
             --bg-color: #f4f5f7;
@@ -23,6 +21,7 @@
             margin: 0;
             padding: 15px;
             box-sizing: border-box;
+            user-select: none;
         }
 
         .header {
@@ -30,55 +29,22 @@
             margin-bottom: 20px;
         }
 
-        .header h1 {
-            font-size: 22px;
-            margin: 0;
-        }
-
-        .header p {
-            font-size: 13px;
-            color: var(--sub-text);
-            margin-top: 5px;
-        }
-
-        .grid {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+        .header h1 { font-size: 22px; margin: 0; }
+        .header p { font-size: 13px; color: var(--sub-text); margin-top: 5px; }
 
         .card {
             background: var(--card-bg);
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            margin-bottom: 15px;
         }
 
-        .card img {
-            width: 100%;
-            height: 190px;
-            object-fit: cover;
-            display: block;
-        }
+        .card-body { padding: 15px; }
+        .card-title { font-size: 19px; font-weight: 700; margin: 0 0 6px 0; }
+        .price { font-size: 16px; color: var(--accent-color); font-weight: bold; margin-bottom: 12px; }
 
-        .card-body {
-            padding: 15px;
-        }
-
-        .card-title {
-            font-size: 19px;
-            font-weight: 700;
-            margin: 0 0 6px 0;
-        }
-
-        .price {
-            font-size: 16px;
-            color: var(--accent-color);
-            font-weight: bold;
-            margin-bottom: 12px;
-        }
-
-        .btn-3d {
+        .btn-360 {
             width: 100%;
             background-color: #111111;
             color: #ffffff;
@@ -88,18 +54,14 @@
             font-weight: 600;
             font-size: 14px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
         }
 
-        /* 3D Modal Oynasi */
+        /* 360 Spin Modal */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.9);
             justify-content: center;
             align-items: center;
             z-index: 100;
@@ -112,15 +74,7 @@
             justify-content: space-between;
             align-items: center;
             color: white;
-            margin-bottom: 10px;
-        }
-
-        model-viewer {
-            width: 90vw;
-            height: 60vh;
-            background-color: #1a1a1a;
-            border-radius: 16px;
-            --poster-color: transparent;
+            margin-bottom: 15px;
         }
 
         .close-btn {
@@ -133,57 +87,62 @@
             cursor: pointer;
         }
 
+        .spin-container {
+            width: 95vw;
+            max-width: 500px;
+            height: 300px;
+            background: #ffffff;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            touch-action: none;
+            cursor: grab;
+            overflow: hidden;
+        }
+
+        .spin-container img {
+            width: 100%;
+            height: auto;
+            pointer-events: none;
+        }
+
         .hint {
-            color: #ccc;
-            font-size: 12px;
-            margin-top: 10px;
+            color: #aaa;
+            font-size: 13px;
+            margin-top: 15px;
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>🚗 Chery Uzbekistan 3D</h1>
-        <p>Modelni 360° ko'rish uchun tugmani bosing</p>
+        <h1>🚗 Chery 360° Panorama</h1>
+        <p>Haqiqiy avtosalon ko'rinishida aylantirib ko'ring</p>
     </div>
 
-    <div class="grid">
-        <!-- Tiggo 7 Pro -->
-        <div class="card">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Chery_Tiggo_7_Pro_001.jpg/800px-Chery_Tiggo_7_Pro_001.jpg" alt="Chery Tiggo 7 Pro">
-            <div class="card-body">
-                <div class="card-title">Chery Tiggo 7 Pro</div>
-                <div class="price">299,900,000 UZS dan</div>
-                <button class="btn-3d" onclick="open3D('Chery Tiggo 7 Pro', 'https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/ToyCar/glTF-Binary/ToyCar.glb')">
-                    🔄 360° Ko'rinishda ko'rish
-                </button>
-            </div>
-        </div>
-
-        <!-- Tiggo 8 Pro Max -->
-        <div class="card">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Chery_Tiggo_8_Pro_01.jpg/800px-Chery_Tiggo_8_Pro_01.jpg" alt="Chery Tiggo 8 Pro Max">
-            <div class="card-body">
-                <div class="card-title">Chery Tiggo 8 Pro Max</div>
-                <div class="price">415,000,000 UZS dan</div>
-                <button class="btn-3d" onclick="open3D('Chery Tiggo 8 Pro Max', 'https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/ToyCar/glTF-Binary/ToyCar.glb')">
-                    🔄 360° Ko'rinishda ko'rish
-                </button>
-            </div>
+    <!-- Tiggo 7 Pro -->
+    <div class="card">
+        <div class="card-body">
+            <div class="card-title">Chery Tiggo 7 Pro</div>
+            <div class="price">299,900,000 UZS dan</div>
+            <button class="btn-360" onclick="open360('Chery Tiggo 7 Pro')">🔄 360° Aylantirib ko'rish</button>
         </div>
     </div>
 
-    <!-- 3D Oyna -->
-    <div id="viewerModal" class="modal">
+    <!-- 360 Modal Viewer -->
+    <div id="spinModal" class="modal">
         <div class="modal-header">
-            <h3 id="mTitle" style="margin: 0;"></h3>
-            <button class="close-btn" onclick="close3D()">✕ Yopish</button>
+            <h3 id="mTitle" style="margin:0;"></h3>
+            <button class="close-btn" onclick="close360()">✕ Yopish</button>
         </div>
-        
-        <!-- Google 3D Player -->
-        <model-viewer id="carViewer" src="" camera-controls auto-rotate shadow-intensity="1" ar></model-viewer>
-        
-        <div class="hint">👆 Barmog'ingiz bilan mashinani har tomonga burib ko'ring</div>
+
+        <div class="spin-container" id="spinArea">
+            <img id="spinImage" src="https://www.chery.ru/storage/images/360/tiggo7pro/1.png" alt="360 view">
+        </div>
+
+        <div class="hint">👈 Barmog'ingiz bilan chapga/o'ngga suring 👉</div>
     </div>
 
     <script>
@@ -194,17 +153,51 @@
             }
         });
 
-        function open3D(title, modelUrl) {
+        const totalFrames = 36;
+        let currentFrame = 1;
+        let startX = 0;
+        let isDragging = false;
+
+        const spinImage = document.getElementById('spinImage');
+        const spinArea = document.getElementById('spinArea');
+
+        function open360(title) {
             document.getElementById('mTitle').innerText = title;
-            const viewer = document.getElementById('carViewer');
-            viewer.src = modelUrl;
-            document.getElementById('viewerModal').style.display = 'flex';
+            currentFrame = 1;
+            updateImage();
+            document.getElementById('spinModal').style.display = 'flex';
         }
 
-        function close3D() {
-            document.getElementById('viewerModal').style.display = 'none';
-            document.getElementById('carViewer').src = "";
+        function close360() {
+            document.getElementById('spinModal').style.display = 'none';
         }
+
+        function updateImage() {
+            // Chery rasmiy 360 kadrlar generatori
+            spinImage.src = `https://www.chery.ru/storage/images/360/tiggo7pro/${currentFrame}.png`;
+        }
+
+        // Touch & Mouse eventlar (Aylantirish uchun)
+        spinArea.addEventListener('pointerdown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+        });
+
+        window.addEventListener('pointermove', (e) => {
+            if (!isDragging) return;
+            const diff = e.clientX - startX;
+            if (Math.abs(diff) > 10) {
+                if (diff > 0) {
+                    currentFrame = currentFrame >= totalFrames ? 1 : currentFrame + 1;
+                } else {
+                    currentFrame = currentFrame <= 1 ? totalFrames : currentFrame - 1;
+                }
+                updateImage();
+                startX = e.clientX;
+            }
+        });
+
+        window.addEventListener('pointerup', () => { isDragging = false; });
     </script>
 </body>
 </html>
